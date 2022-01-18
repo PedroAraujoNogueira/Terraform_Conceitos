@@ -1,0 +1,59 @@
+-> INTRODUÇÃO
+
+O terraform é uma excelente ferramenta para provisionar infraestrutura de forma 
+automatizada e por meio de código, sendo um exemplo de IAC(infrastructure as code).
+
+O terraform provisiona infraestrutura, ou seja, pega todos os componentes que 
+vamos precisar na nossa infraestrutura(por exemplo: EC2, VPC, subnet, security 
+groups, S3, EKS e etc) e cria, atualiza, deleta e configura esses serviços, inclusive 
+regras de segurança. 
+
+O terraform funciona em diferentes clouds e é desenvolvido em golang.
+
+-> CONCEITOS
+
+O terraform tem alguns conceitos importantes:
+1. Idempotencia: é a propriedade que faz com que uma operação possa ser aplicada
+várias vezes sem que o valor do resultado se altere, ou seja, é a propriedade que faz 
+com que uma mesma tarefa não seja executada mais de uma vez, para não termos serviços
+de forma duplicada, triplicada, quadruplicada e etc. Por exemplo, se tivermos rodado 
+uma operação no terraform que cria uma máquina EC2 e rodarmos o terraform com a operação 
+de criar uma maquina EC2 novamente, o terraform vai identificar que aquela máquina EC2 
+já está criada e não vai criar novamente.
+2. Declarativa: o terraform trabalha de forma declarativa, ou seja, eu digo o que eu 
+quero como resultado final e o terraform se organiza para gerar aquele 
+resultado, criando, alterando e configurando apenas o que falta.
+
+-> Terraform vs ANSIBLE
+
+O Terraform é um concorrente do Ansible? Mais ou Menos, os dois conseguem fazer as mesmas 
+coisas porém o terraform é extremamente eficiente em provisionar infraestrutura(é o que ele faz 
+de melhor), enquanto o Ansible é extremamente eficiente em gerenciar e automatizar 
+configurações(por exemplo, instalar o nginx, fazer algumas configurações no nginx para 
+ele trocar alguns arquivos e instalar o Vim em 50 maquinas. Com o Ansible pegamos o IP 
+das 50 maquinas, coloca em um "inventário" e ao rodarmos o Ansible ele vai configurar e 
+instalar tudo de forma automatizada).
+
+Eu consigo substituir o Ansible pelo Terraform? Até consegue, porém o mais recomendado é 
+usar as duas ferramentas em conjunto usando o que cada uma tem de melhor. 
+
+-> Gerenciamento de Estado.
+
+Como o Terraform consegue garantir a Idempotencia(gerenciamento de estado)? 
+-> O Terraform anota, passo a passo, tudo que ele faz. Então quando queremos fazer alguma 
+alteração, o Terraform compara as anotações que ele tem com o que queremos fazer e gera 
+um plano de ação do que ele vai fazer. Você pode aceitar ou não o plano de ação do 
+Terraform. 
+-> Porém se não tivermos guardado a anotação(Estado) do Terraform ele ficará
+"perdido" e tentará criar tudo do zero. Logo o arquivo que contém o estado atual(anotações) 
+do Terraform é super importante e devemos sempre ter ele guardado. Esse arquivo é um 
+dos arquivos principais para trabalharmos com o Terraform e nunca devemos perdê-lo, pois 
+esse arquivo descreve tudo que aconteceu e o estado atual da nossa infraestrutura. Logo
+sem esse arquivo, não sabemos o estado atual da nossa infraestrutura.
+-> Quando trabalhamos em equipe com o Terraform, todos os membros da equipe devem ter o 
+arquivo de Estado atualizado, caso contrário podem acontecer diversos problemas. Por isso
+o Terraform permite que trabalhemos com esse arquivo de Estado de forma online, ou seja, 
+podemos colocar esse arquivo em bucket do S3 por exemplo e toda vez que alguém precisar
+fazer uma modificação na infraestrutura o Terraform vai consultar o arquivo de Estado no
+bucket, vai fazer as alterações na infraestrutura e atualizar o arquivo de Estado no bucket
+para sempre mantermos atualizada a versão da nossa infraestrutura.
