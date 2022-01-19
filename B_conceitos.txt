@@ -1,0 +1,49 @@
+CONCEITOS:
+
+1. O Terraform depende de providers para poder fazer as ações com uma cloud, com o Kubernetes ou 
+qualquer outra coisa que ele precise se comunicar. Na documentação do provider teremos todos os 
+detalhes de como podemos nos comunicar e provisionar os recursos do nosso ambiente 
+de infraestrutura. 
+
+2. HCL -> Hashicorp Configuration Language. É uma linguagem criada pela própria Hashicorp.
+
+COMANDOS:
+
+1. terraform init -> Toda vez que formos trabalhar com Terraform temos que pedir para ele 
+inicializar. Quando usamos esse comando, o terraform vai instalar os providers necessários
+para rodar nossos scripts. Ao rodarmos esse comando o terraform vai criar um 
+arquivo chamado .terraform.lock.hcl que vai registrar todos os providers que já temos
+instalado e suas respectivas versões. Também vai criar uma pasta .terraform onde vão 
+estar baixados nossos providers. 
+OBS: Se ao executar o "terraform init" não aparecer o arquivo e a pasta do terraform, então 
+provavelmente você não está executando nenhum script .tf
+
+2. terraform plan -> Ele cria um plano de ação para chegar no resultado que pedimos. Podemos
+ver o plano criado no terminal e decidir se queremos executar o plano. Para executar o 
+plano usamos o comando "terraform apply". 
+O simbolo "+" significa que o terraform está criando algo.
+O simbolo "-" significa que o terraform está destruindo algo.
+O simbolo "~" significa que o terraform está alterando/atualizando algo.
+
+3. terraform apply -> executa um plano. Observe que quando rodamos esse comando ele mostra
+novamente o plano que ele irá executar. Para aceitarmos esse plano temos que digitar "yes".
+Após o yes, note que sua infraestrutura foi criada de acordo com seu script .tf e que 
+um arquivo .tfstate foi criado.
+Se após esse comando usarmos novamente os comandos "terraform plan" ou "terraform apply", o 
+terraform vai nos dizer que não há alterações no script e que nossa infraestrutura já está 
+de acordo com nossas configurações. Isso é possível graças ao arquivo terraform.tfstate
+que mostra o estado atual da nossa infraestrutura.
+OBS: Sempre que usar esse comando, preste atenção em quantos arquivos estão sendo criados, 
+alterados e destruidos.
+OBS2: Sempre que rodamos o comando "terraform apply" e o estado atual da nossa 
+infraestrutura é modificado, é criado um arquivo de terraform.tfstate.backup com a 
+versão anterior há modificação, o que nos permite voltar para a versão anterior caso 
+seja necessário.
+
+INSTALAÇÃO LINUX(UBUNTU/DEBIAN)
+
+1. curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+2. sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+3. sudo apt-get update && sudo apt-get install terraform
+
+

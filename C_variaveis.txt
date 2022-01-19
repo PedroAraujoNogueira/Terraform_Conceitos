@@ -1,0 +1,4 @@
+As variáveis de entrada servem para deixar nosso código mais dinâmico e também para 
+que as informações não fiquem expostas no nosso script. Também servem como parâmetros 
+para um módulo do Terraform, para que os usuários possam personalizar o comportamento 
+sem editar o script.
